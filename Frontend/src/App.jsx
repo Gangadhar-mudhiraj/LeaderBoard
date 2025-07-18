@@ -1,9 +1,10 @@
-import React from 'react'
-
+import AppRouter from "./router/AppRouter.jsx"
 const App = () => {
   return (
-    <div>
-      <h1 className='bg-red-500'>hii</h1>
+    <div className='container-fluid bg-gray-900'>
+      <div >
+        <AppRouter />
+      </div>
     </div>
   )
 }
