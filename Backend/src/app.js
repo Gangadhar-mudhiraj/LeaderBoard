@@ -17,6 +17,7 @@ console.log(process.env.FRONTEND_URL);
 app.use(cors({ origin: `${process.env.FRONTEND_URL}` })); // Handles Cross-Origin Resource Sharing
 app.use(morgan('dev')); // Logs HTTP requests in a developer-friendly format
 
+app.get("/ping", (_, res) => res.send("pong"));
 // 2. Routes
 app.use("/api/users", userRoutes); // Mounts user-related routes under /api/users
 
