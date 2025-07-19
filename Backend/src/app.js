@@ -12,6 +12,8 @@ const app = express();
 
 // 1. Regular middleware first
 app.use(express.json()); // Parses incoming JSON requests
+console.log(process.env.FRONTEND_URL);
+
 app.use(cors({ origin: `${process.env.FRONTEND_URL}` })); // Handles Cross-Origin Resource Sharing
 app.use(morgan('dev')); // Logs HTTP requests in a developer-friendly format
 
