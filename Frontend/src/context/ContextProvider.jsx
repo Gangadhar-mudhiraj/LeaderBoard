@@ -39,6 +39,7 @@ export const UserProvider = ({ children }) => {
             const response = await axios.post(`${URL}/api/users/${selectedUserId}/add-points`);
             if (response.data) {
                 SuccessNotify("Points added successfully!");
+                setSelectedUserId(null)
                 await fetchUsers();
             }
         } catch (error) {
