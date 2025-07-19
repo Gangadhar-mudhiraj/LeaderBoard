@@ -17,10 +17,30 @@ const LeaderBoard = () => {
     if (isLoading) return <div className="text-center py-8">Loading leaderboard...</div>;
     if (!usersData || usersData.length === 0) return <div className="text-center py-8">No users found</div>;
 
+    const transformedUsers = usersData.map(user => {
+        // Check if it's a Mongoose document by checking for `_doc`
+        if (user && user._doc) {
+            return {
+                ...user._doc, // Extract the plain data
+                rank: user.rank // Keep the rank which is added directly
+            };
+        }
+        // If it's already a plain object (e.g., from .lean() working correctly), return as is
+        return user;
+    });
+    console.log(usersData);
+    console.log(transformedUsers);
+
+
     // Get top 3 users (prime users)
-    const primeUsers = usersData.slice(0, 3);
+    const primeUsers = transformedUsers.slice(0, 3);
+    console.log("prime users", primeUsers);
+
+
+
     // Get remaining users (normal users)
-    const normalUsers = usersData.slice(3);
+    const normalUsers = transformedUsers.slice(3);
+    console.log("normal users", normalUsers);
 
     return (
         <div className="max-w-4xl mx-auto p-4">

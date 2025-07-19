@@ -61,9 +61,6 @@ const addPoints = asyncHandler(async (req, res) => {
 const getAllUsers = asyncHandler(async (req, res) => {
 
     const users = await User.find({})
-        .sort({ points: -1 })
-        .select('name points history')
-        .lean();
 
 
     const usersWithRank = users.map((user, index) => ({

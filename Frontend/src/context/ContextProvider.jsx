@@ -15,7 +15,29 @@ export const UserProvider = ({ children }) => {
         setIsLoading(true);
         try {
             const response = await axios.get(`${URL}/api/users`);
-            setUsersData(response.data.data);
+
+            const fetchedUsers = response.data.data;
+            const plainUsers = fetchedUsers.map(user => {
+                if (user && user._doc) {
+                    return { ...user._doc, rank: user.rank }; // Ensure rank is carried over if backend adds it
+                }
+                return user;
+            });
+
+            // ✅ 2. SORT THE ARRAY ACCORDING TO POINTS (DESCENDING)
+            const sortedUsers = [...plainUsers].sort((a, b) => b.points - a.points);
+
+            // ✅ 3. ADD RANK PROPERTY TO EACH USER AFTER SORTING
+            // This ensures ranks are assigned based on the sorted order
+            const usersWithRank = sortedUsers.map((user, index) => ({
+                ...user,
+                rank: index + 1 // Assign rank based on sorted position
+            }));
+
+            setUsersData(usersWithRank);
+            setSelectedUserId(null);
+
+            // setUsersData(fetchedUsers.data.data);
         } catch (error) {
             FailureNotify("Unable to fetch users");
             console.error("Fetch users error:", error);
